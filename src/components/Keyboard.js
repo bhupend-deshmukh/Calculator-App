@@ -27,31 +27,86 @@ import { useEffect, useState } from "react";
 
 function Keyboard() {
   const [buttonValue, setButtonValue] = useState("");
-  const [output, setoutput] = useState(0);
+  const [result, setResult] = useState("");
   function storeButtoneValue(e) {
     if (e.target.id === "C") {
       setButtonValue("");
+      setResult("");
     } else {
       let value = e.target.id;
       let btnValue = buttonValue;
-      
+      let spValue = btnValue.split("");
+      let lastChar = spValue[spValue.length - 1];
+      // for (let ind = 0; ind < spValue.length; ind++) {
+      //   const element = spValue[ind];
+      //   console.log(element,'this is spvalue...');
+      // }
+      // // console.log(spValue[spValue.length-1]);
+      if (
+        lastChar === "+" ||
+        lastChar === "-" ||
+        lastChar === "x" ||
+        lastChar === "÷" ||
+        lastChar === "%" ||
+        lastChar === "."
+      ) {
+        if (
+          value === "+" ||
+          value === "-" ||
+          value === "x" ||
+          value === "÷" ||
+          value === "%"
+        ) {
+          // pop
+          spValue.pop();
+          let newSpValue = spValue.join("");
+          setButtonValue(newSpValue + value);
+          return;
+        }
+      }
+
       setButtonValue(buttonValue + value);
-      collectData();
+      // collectData();
     }
   }
 
-
-  function collectData() {
-    let m = buttonValue;
-    console.log(m, "hhhhhhhhhhhhhhhhhh");
+  function calculate() {
+    let btnValue = buttonValue;
+    let spValue = btnValue.split("");
+    let newString = "";
+    let lastChar = spValue[spValue.length - 1];
+    if (
+      lastChar === "+" ||
+      lastChar === "-" ||
+      lastChar === "x" ||
+      lastChar === "÷" ||
+      lastChar === "%"
+    ) {
+      spValue.pop();
+    }
+    for (let ind = 0; ind < spValue.length; ind++) {
+      const element = spValue[ind];
+      if (element === "x") {
+        newString += "*";
+        continue;
+      } else if (element === "÷") {
+        newString += "/";
+        continue;
+      } else {
+        newString += element;
+      }
+    }
+    let result = eval(newString);
+    console.log(result, "this is result...");
+    setResult(result);
   }
 
   return (
     <div className="keyboard">
       <div className="text-end mt-28 px-6 py-6">
-        <p className="text-2xl font-bold text-gray-400">380 x 12</p>
+        <p className="text-2xl font-bold text-gray-400">{buttonValue}</p>
         <p className="text-5xl font-bold overflow-x-auto whitespace-nowrap">
-          {buttonValue}
+          {result}
         </p>
       </div>
 
@@ -92,7 +147,10 @@ function Keyboard() {
               />
             </button>
           </div>
-          <div onClick={storeButtoneValue} className="cursor-pointer bg-slate-400 rounded-2xl hover:bg-slate-500">
+          <div
+            onClick={storeButtoneValue}
+            className="cursor-pointer bg-slate-400 rounded-2xl hover:bg-slate-500"
+          >
             <button onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="7"
@@ -223,7 +281,7 @@ function Keyboard() {
             <p className="font-bold py-4 px-6 mt-1 text-2xl ml-1">.</p>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button onClick={calculate}>
               <FontAwesomeIcon
                 id="reolad"
                 className="font-extrabold py-4 text-rose-500 px-6 mt-1 text-2xl"
