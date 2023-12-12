@@ -1,7 +1,6 @@
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faPlus, faSpinner, faXmark } from "@fortawesome/free-solid-svg-icons";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   fa0,
   fa1,
@@ -21,9 +20,10 @@ import {
   faPlus,
   faRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { useState } from "react";
 import divisions from "../newDeviso-preview.png";
-import { useEffect, useState } from "react";
 
 function Keyboard() {
   const [buttonValue, setButtonValue] = useState("");
@@ -102,15 +102,15 @@ function Keyboard() {
   }
 
   return (
-    <div className="keyboard">
+    <div className="keyboard w-full absolute bottom-0">
       <div className="text-end mt-28 px-6 py-6">
         <p className="text-2xl font-bold text-gray-400">{buttonValue}</p>
-        <p className="text-5xl font-bold overflow-x-auto whitespace-nowrap">
+        <p className="text-5xl font-bold overflow-hidden whitespace-nowrap">
           {result}
         </p>
       </div>
 
-      <div className="mt-4 rounded-t-3xl h-screen bg-slate-300">
+      <div className="mt-4 lg:rounded-3xl bg-slate-300">
         <div className=" justify-between px-6 py-6 pt-8 grid grid-cols-4 gap-5">
           <div className="font-bold  bg-slate-400 shadow-2xl rounded-2xl hover:bg-slate-500  pointer text-lg">
             <button

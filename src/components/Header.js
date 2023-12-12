@@ -1,6 +1,5 @@
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import TypingEffect from "./effect/TypingEffect";
 import { useState } from "react";
 
 function Headers() {
@@ -23,18 +22,12 @@ function Headers() {
         </button>
       </div> */}
       <div className="uppercase font-bold">
-        {isFirstButtonVisible ? (
-          <button onClick={handleButtonClick}>
-            <FontAwesomeIcon className="text-3xl cursor-pointer" icon={faSun} />
-          </button>
-        ) : (
-          <button onClick={handleButtonClick}>
-            <FontAwesomeIcon
-              className="text-3xl cursor-pointer"
-              icon={faMoon}
-            />
-          </button>
-        )}
+        <button className="outline-none" onClick={handleButtonClick}>
+          <FontAwesomeIcon
+            className="text-3xl outline-none hover:text-gray-700 cursor-pointer"
+            icon={isFirstButtonVisible ? faSun : faMoon}
+          />
+        </button>
       </div>
     </div>
   );
