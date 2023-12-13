@@ -13,12 +13,13 @@ import {
   fa8,
   fa9,
   faC,
+  faCircleXmark,
   faEquals,
   faMinus,
   faMultiply,
   faPercent,
   faPlus,
-  faRotateLeft,
+  faRotateLeft
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -29,10 +30,23 @@ function Keyboard() {
   const [buttonValue, setButtonValue] = useState("");
   const [result, setResult] = useState("");
   function storeButtoneValue(e) {
+    const trimData = buttonValue.trim();
+    if (trimData === "") {
+      if (
+        e.target.id === "+" ||
+        e.target.id === "-" ||
+        e.target.id === "x" ||
+        e.target.id === "÷" ||
+        e.target.id === "%"
+      ) {
+        return;
+      }
+    }
     if (e.target.id === "C") {
       setButtonValue("");
       setResult("");
     } else {
+      console.log("else wala part is working.....");
       let value = e.target.id;
       let btnValue = buttonValue;
       let spValue = btnValue.split("");
@@ -98,7 +112,16 @@ function Keyboard() {
     }
     let result = eval(newString);
     console.log(result, "this is result...");
+    // if()
     setResult(result);
+  }
+
+  function removeElement() {
+    let btnValue = buttonValue;
+    let spValue = btnValue.split("");
+    spValue.pop();
+    let newSpValue = spValue.join("");
+    setButtonValue(newSpValue);
   }
 
   return (
@@ -106,7 +129,8 @@ function Keyboard() {
       <div className="text-end mt-28 px-6 py-6">
         <p className="text-2xl font-bold text-gray-400">{buttonValue}</p>
         <p className="text-5xl font-bold overflow-hidden whitespace-nowrap">
-          {result}
+          {/* {result} */}
+          999999999999
         </p>
       </div>
 
@@ -115,7 +139,7 @@ function Keyboard() {
           <div className="font-bold  bg-slate-400 shadow-2xl rounded-2xl hover:bg-slate-500  pointer text-lg">
             <button
               onClick={storeButtoneValue}
-              className="btn btn-dark rounded-2xl"
+              className="btn w-full btn-dark rounded-2xl"
             >
               <FontAwesomeIcon
                 id="C"
@@ -125,12 +149,15 @@ function Keyboard() {
             </button>
           </div>
           <div className="bg-slate-400 text-lg rounded-2xl hover:bg-slate-500">
-            <button className="btn text-green-400 btn-dark font-extrabold py-4 px-6 text-xl">
-              +/-
+            <button
+              onClick={removeElement}
+              className="btn w-full text-green-400 btn-dark font-extrabold py-4 px-6 text-2xl"
+            >
+              <FontAwesomeIcon icon={faCircleXmark} />
             </button>
           </div>
           <div className="bg-slate-400 text-lg rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="%"
                 className="font-extrabold py-4 text-green-400 px-6 mt-1 text-2xl"
@@ -139,7 +166,7 @@ function Keyboard() {
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full item-center" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="+"
                 className="font-extrabold	 text-rose-500 py-4 px-6 mt-1 text-2xl"
@@ -151,34 +178,34 @@ function Keyboard() {
             onClick={storeButtoneValue}
             className="cursor-pointer bg-slate-400 rounded-2xl hover:bg-slate-500"
           >
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="7"
-                className="font-bold py-4 px-6 mt-1 ml-1 text-2xl"
+                className="font-bold py-4 px-6 mt-1 text-2xl"
                 icon={fa7}
               />
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="8"
-                className="font-bold py-4 px-6 mt-1 ml-1 text-2xl"
+                className="font-bold py-4 px-6 mt-1 text-2xl"
                 icon={fa8}
               />
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="9"
-                className="font-bold py-4 px-6 mt-1 text-2xl ml-1"
+                className="font-bold py-4 px-6 mt-1 text-2xl"
                 icon={fa9}
               />
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="x"
                 className="font-extrabold text-rose-500 py-4 px-6 mt-1 text-2xl "
@@ -187,34 +214,34 @@ function Keyboard() {
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="4"
-                className="font-bold py-4 px-6 mt-1 text-2xl ml-1"
+                className="font-bold py-4 px-6 mt-1 text-2xl"
                 icon={fa4}
               />
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="5"
-                className="font-bold py-4 px-6 mt-1 text-2xl ml-1"
+                className="font-bold py-4 px-6 mt-1 text-2xl"
                 icon={fa5}
               />
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="6"
-                className="font-bold py-4 px-6 mt-1 text-2xl ml-1"
+                className="font-bold py-4 px-6 mt-1 text-2xl"
                 icon={fa6}
               />
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="-"
                 className="font-bold py-4 text-rose-500 px-6 mt-1 text-2xl"
@@ -223,16 +250,16 @@ function Keyboard() {
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="1"
-                className="font-bold py-4 px-6 mt-1 text-2xl ml-1"
+                className="font-bold py-4 px-6 mt-1 text-2xl"
                 icon={fa1}
               />
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="2"
                 className="font-bold py-4 px-6 mt-1 text-2xl ml-1"
@@ -241,26 +268,25 @@ function Keyboard() {
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="3"
-                className="font-bold py-4 px-6 mt-1 text-2xl ml-1"
+                className="font-bold py-4 px-6 mt-1 text-2xl"
                 icon={fa3}
               />
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
-              <img
-                // className="font-bold py-4 px-6 mt-1 text-2xl ml-1"
-                id="÷"
-                className="bg-slate-400 mt-4 w-12  ml-3"
-                src={divisions}
-              ></img>
+            <button
+              id="÷"
+              className="w-full text-[35px] font-extrabold outline-none text-rose-500"
+              onClick={storeButtoneValue}
+            >
+              ÷
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="reolad"
                 className="font-bold text-rose-500 py-4 px-6 mt-1 text-2xl"
@@ -269,19 +295,19 @@ function Keyboard() {
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={storeButtoneValue}>
+            <button className="w-full" onClick={storeButtoneValue}>
               <FontAwesomeIcon
                 id="0"
-                className="font-bold py-4 px-6 mt-1 text-2xl ml-1"
+                className="font-bold py-4 px-6 mt-1 text-2xl"
                 icon={fa0}
               />
             </button>
           </div>
-          <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <p className="font-bold py-4 px-6 mt-1 text-2xl ml-1">.</p>
+          <div className="w-full bg-slate-400 rounded-2xl hover:bg-slate-500">
+            <p className="font-bold py-4 px-6 mt-1 text-2xl ml-3 ">.</p>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button onClick={calculate}>
+            <button className="w-full " onClick={calculate}>
               <FontAwesomeIcon
                 id="reolad"
                 className="font-extrabold py-4 text-rose-500 px-6 mt-1 text-2xl"
