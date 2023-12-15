@@ -1,6 +1,3 @@
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faPlus, faSpinner, faXmark } from "@fortawesome/free-solid-svg-icons";
-
 import {
   fa0,
   fa1,
@@ -19,17 +16,18 @@ import {
   faMultiply,
   faPercent,
   faPlus,
-  faRotateLeft
+  faRectangleXmark,
+  faRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useState } from "react";
-import divisions from "../newDeviso-preview.png";
 
 function Keyboard() {
   const [buttonValue, setButtonValue] = useState("");
   const [result, setResult] = useState("");
   function storeButtoneValue(e) {
+    console.log(result.length);
     const trimData = buttonValue.trim();
     if (trimData === "") {
       if (
@@ -51,11 +49,14 @@ function Keyboard() {
       let btnValue = buttonValue;
       let spValue = btnValue.split("");
       let lastChar = spValue[spValue.length - 1];
-      // for (let ind = 0; ind < spValue.length; ind++) {
-      //   const element = spValue[ind];
-      //   console.log(element,'this is spvalue...');
-      // }
-      // // console.log(spValue[spValue.length-1]);
+      if(spValue.length == 1){
+        if(spValue[0] == 0 && value == 0){
+          spValue.pop();
+          let newSpValue = spValue.join("") + value;
+          setButtonValue(newSpValue);
+          return;
+        }
+      }
       if (
         lastChar === "+" ||
         lastChar === "-" ||
@@ -71,21 +72,54 @@ function Keyboard() {
           value === "÷" ||
           value === "%"
         ) {
-          // pop
           spValue.pop();
-          let newSpValue = spValue.join("");
-          setButtonValue(newSpValue + value);
+          let newSpValue = spValue.join("") + value;
+          const t_data = newSpValue.split("");
+          console.log("line number 77...");
+          console.log(newSpValue, "this is newSpValue...");
+          setButtonValue(newSpValue);
+          if (
+            t_data.includes("+") ||
+            t_data.includes("-") ||
+            t_data.includes("x") ||
+            t_data.includes("÷") ||
+            t_data.includes("%")
+          ) {
+            calculate(newSpValue);
+          }
           return;
         }
       }
+      let setData = buttonValue + value;
+      const t_data = setData.split("");
 
-      setButtonValue(buttonValue + value);
+      setButtonValue(setData);
+
+      if (
+        t_data.includes("+") ||
+        t_data.includes("-") ||
+        t_data.includes("x") ||
+        t_data.includes("÷") ||
+        t_data.includes("%")
+      ) {
+        calculate(setData);
+      }
+      console.log("line number 103....");
+
+      // calculate();
       // collectData();
     }
   }
 
-  function calculate() {
-    let btnValue = buttonValue;
+  function calculate(data) {
+    let btnValue;
+    if (typeof data === "string") {
+      btnValue = data;
+    } else {
+      btnValue = buttonValue;
+    }
+    // let btnValue = data || buttonValue;
+    console.log(buttonValue, data, "this is btnValue...");
     let spValue = btnValue.split("");
     let newString = "";
     let lastChar = spValue[spValue.length - 1];
@@ -110,7 +144,10 @@ function Keyboard() {
         newString += element;
       }
     }
-    let result = eval(newString);
+    console.log(newString,'11111111111111111111111111111111111');
+    const removeZero = newString.replace(/\b0+(\d+)/g, "$1");
+    // replace(/\b0+(\d+)/g, "$1")
+    let result = eval(removeZero);
     console.log(result, "this is result...");
     // if()
     setResult(result);
@@ -125,12 +162,19 @@ function Keyboard() {
   }
 
   return (
+    // (let re = result.split(""))
     <div className="keyboard w-full absolute bottom-0">
       <div className="text-end mt-28 px-6 py-6">
         <p className="text-2xl font-bold text-gray-400">{buttonValue}</p>
-        <p className="text-5xl font-bold overflow-hidden whitespace-nowrap">
-          {/* {result} */}
-          999999999999
+        <p
+          className={
+            buttonValue.length > 10 ? "text-2xl font-bold " : "text-5xl font-bold "
+            // result.length < 9
+            //   ? "text-2xl font-bold overflow-hidden whitespace-nowrap"
+            //   : "text-5xl font-bold overflow-hidden whitespace-nowrap"
+          }
+        >
+          {result}
         </p>
       </div>
 
@@ -153,7 +197,7 @@ function Keyboard() {
               onClick={removeElement}
               className="btn w-full text-green-400 btn-dark font-extrabold py-4 px-6 text-2xl"
             >
-              <FontAwesomeIcon icon={faCircleXmark} />
+              <FontAwesomeIcon icon={faRectangleXmark} />
             </button>
           </div>
           <div className="bg-slate-400 text-lg rounded-2xl hover:bg-slate-500">
