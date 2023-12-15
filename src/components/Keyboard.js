@@ -10,14 +10,12 @@ import {
   fa8,
   fa9,
   faC,
-  faCircleXmark,
   faEquals,
   faMinus,
   faMultiply,
   faPercent,
   faPlus,
   faRectangleXmark,
-  faRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -27,7 +25,6 @@ function Keyboard() {
   const [buttonValue, setButtonValue] = useState("");
   const [result, setResult] = useState("");
   function storeButtoneValue(e) {
-    console.log(result.length);
     const trimData = buttonValue.trim();
     if (trimData === "") {
       if (
@@ -44,15 +41,29 @@ function Keyboard() {
       setButtonValue("");
       setResult("");
     } else {
-      console.log("else wala part is working.....");
       let value = e.target.id;
       let btnValue = buttonValue;
       let spValue = btnValue.split("");
       let lastChar = spValue[spValue.length - 1];
-      if(spValue.length == 1){
-        if(spValue[0] == 0 && value == 0){
+      if (spValue.length == 0) {
+        if (value == "00") {
+          let newSpValue = spValue.join("") + "0";
+          newSpValue.replace(/(\.[^.]*)\./g, "$1");
+          setButtonValue(newSpValue);
+          return;
+        }
+      }
+      if (spValue.length == 1) {
+        if (spValue[0] == 0 && value == 0) {
           spValue.pop();
+          if (value == "00") {
+            let newSpValue = spValue.join("") + "0";
+            newSpValue.replace(/(\.[^.]*)\./g, "$1");
+            setButtonValue(newSpValue);
+            return;
+          }
           let newSpValue = spValue.join("") + value;
+          newSpValue.replace(/(\.[^.]*)\./g, "$1");
           setButtonValue(newSpValue);
           return;
         }
@@ -70,13 +81,13 @@ function Keyboard() {
           value === "-" ||
           value === "x" ||
           value === "÷" ||
-          value === "%"
+          value === "%" ||
+          value === "."
         ) {
           spValue.pop();
           let newSpValue = spValue.join("") + value;
+          newSpValue.replace(/(\.[^.]*)\./g, "$1");
           const t_data = newSpValue.split("");
-          console.log("line number 77...");
-          console.log(newSpValue, "this is newSpValue...");
           setButtonValue(newSpValue);
           if (
             t_data.includes("+") ||
@@ -90,9 +101,17 @@ function Keyboard() {
           return;
         }
       }
+      if (value == ".") {
+        if (spValue.length == 0) {
+          let newSpValue = spValue.join("") + "0" + value;
+          newSpValue.replace(/(\.[^.]*)\./g, "$1");
+          setButtonValue(newSpValue);
+          return;
+        }
+      }
       let setData = buttonValue + value;
+      setData.replace(/(\.[^.]*)\./g, "$1");
       const t_data = setData.split("");
-
       setButtonValue(setData);
 
       if (
@@ -104,10 +123,6 @@ function Keyboard() {
       ) {
         calculate(setData);
       }
-      console.log("line number 103....");
-
-      // calculate();
-      // collectData();
     }
   }
 
@@ -118,8 +133,6 @@ function Keyboard() {
     } else {
       btnValue = buttonValue;
     }
-    // let btnValue = data || buttonValue;
-    console.log(buttonValue, data, "this is btnValue...");
     let spValue = btnValue.split("");
     let newString = "";
     let lastChar = spValue[spValue.length - 1];
@@ -144,12 +157,8 @@ function Keyboard() {
         newString += element;
       }
     }
-    console.log(newString,'11111111111111111111111111111111111');
     const removeZero = newString.replace(/\b0+(\d+)/g, "$1");
-    // replace(/\b0+(\d+)/g, "$1")
     let result = eval(removeZero);
-    console.log(result, "this is result...");
-    // if()
     setResult(result);
   }
 
@@ -158,20 +167,19 @@ function Keyboard() {
     let spValue = btnValue.split("");
     spValue.pop();
     let newSpValue = spValue.join("");
+    calculate(newSpValue);
     setButtonValue(newSpValue);
   }
 
   return (
-    // (let re = result.split(""))
     <div className="keyboard w-full absolute bottom-0">
       <div className="text-end mt-28 px-6 py-6">
         <p className="text-2xl font-bold text-gray-400">{buttonValue}</p>
         <p
           className={
-            buttonValue.length > 10 ? "text-2xl font-bold " : "text-5xl font-bold "
-            // result.length < 9
-            //   ? "text-2xl font-bold overflow-hidden whitespace-nowrap"
-            //   : "text-5xl font-bold overflow-hidden whitespace-nowrap"
+            buttonValue.length > 10
+              ? "text-2xl font-bold "
+              : "text-5xl font-bold "
           }
         >
           {result}
@@ -330,12 +338,13 @@ function Keyboard() {
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <button className="w-full" onClick={storeButtoneValue}>
-              <FontAwesomeIcon
-                id="reolad"
-                className="font-bold text-rose-500 py-4 px-6 mt-1 text-2xl"
-                icon={faRotateLeft}
-              />
+            <button
+              className="w-full py-5 px-6 flex gap-1 items-center justify-center"
+              id="00"
+              onClick={storeButtoneValue}
+            >
+              <FontAwesomeIcon id="00" className="text-2xl" icon={fa0} />
+              <FontAwesomeIcon id="00" className=" text-2xl" icon={fa0} />
             </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
@@ -348,7 +357,13 @@ function Keyboard() {
             </button>
           </div>
           <div className="w-full bg-slate-400 rounded-2xl hover:bg-slate-500">
-            <p className="font-bold py-4 px-6 mt-1 text-2xl ml-3 ">.</p>
+            <button
+              onClick={storeButtoneValue}
+              id="."
+              className="outline-none font-bold py-4 px-6 mt-1 text-2xl ml-3 "
+            >
+              .
+            </button>
           </div>
           <div className=" bg-slate-400 rounded-2xl hover:bg-slate-500">
             <button className="w-full " onClick={calculate}>
